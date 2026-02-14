@@ -9,11 +9,25 @@
         margin: 0;
         height: 100vh;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         background: #111;
         font-family: Arial, sans-serif;
         overflow: hidden;
+    }
+
+    .logo {
+        position: absolute;
+        top: 40px;
+        left: 50%;
+        transform: translateX(-50%) scale(0.2);
+        z-index: 10;
+    }
+
+    .logo img {
+        height: 90px;
+        width: auto;
     }
 
     .lockers-container {
@@ -179,6 +193,10 @@
 </style>
 </head>
 <body>
+
+<div class="logo">
+    <img src="https://www.thirdspace.london/wp-content/uploads/2024/07/art_1.svg" alt="Third Space">
+</div>
 
 <div class="lockers-container" id="lockersContainer"></div>
 
