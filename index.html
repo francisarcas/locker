@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Locker Door</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #111;
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+    }
+
+    .lockers-container {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+        position: relative;
+    }
+
+    .locker {
+        width: 280px;
+        height: 600px;
+        background: linear-gradient(
+            to bottom,
+            #d7a27a 0%,
+            #e2b18b 30%,
+            #d19a73 60%,
+            #c48763 100%
+        );
+        border-radius: 6px;
+        box-shadow: inset 0 0 30px rgba(0,0,0,0.15),
+                    0 10px 25px rgba(0,0,0,0.4);
+        position: relative;
+        overflow: hidden;
+        transition: opacity 0.3s;
+        flex-shrink: 0;
+    }
+
+    .locker.side {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    /* subtle vertical brushed texture */
+    .locker::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+            to right,
+            rgba(255,255,255,0.05) 0px,
+            rgba(255,255,255,0.05) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+        opacity: 0.3;
+        pointer-events: none;
+    }
+
+    .number {
+        position: absolute;
+        bottom: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 42px;
+        font-weight: bold;
+        color: #2b1a12;
+        text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        letter-spacing: 3px;
+        cursor: pointer;
+        user-select: none;
+        transition: transform 0.1s;
+    }
+
+    .locker:not(.side) .number:hover {
+        transform: translateX(-50%) scale(1.05);
+    }
+
+    .locker:not(.side) .number:active {
+        transform: translateX(-50%) scale(0.95);
+    }
+
+    .locker.side .number {
+        cursor: default;
+    }
+
+    .keypad-container {
+        position: absolute;
+        bottom: 70px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .keypad {
+        width: 60px;
+        height: 95px;
+        background: #1b1b1b;
+        border-radius: 4px;
+        padding: 6px;
+        box-shadow: inset 0 0 6px rgba(255,255,255,0.1);
+        position: relative;
+    }
+
+    .status-light {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 5px;
+        height: 5px;
+        background: #0f0;
+        border-radius: 50%;
+        box-shadow: 0 0 6px rgba(0, 255, 0, 0.9);
+        animation: blink 2s infinite;
+        z-index: 1;
+    }
+
+    .locker.side .status-light {
+        background: #f00;
+        box-shadow: 0 0 6px rgba(255, 0, 0, 0.9);
+        animation: blinkRed 2s infinite;
+    }
+
+    @keyframes blink {
+        0%, 50% {
+            opacity: 1;
+            box-shadow: 0 0 6px rgba(0, 255, 0, 0.9);
+        }
+        51%, 100% {
+            opacity: 0;
+            box-shadow: none;
+        }
+    }
+
+    @keyframes blinkRed {
+        0%, 50% {
+            opacity: 1;
+            box-shadow: 0 0 6px rgba(255, 0, 0, 0.9);
+        }
+        51%, 100% {
+            opacity: 0;
+            box-shadow: none;
+        }
+    }
+
+    .keys-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        gap: 4px;
+        height: 80px;
+        margin-top: 9px;
+    }
+
+    .key {
+        background: #333;
+        border-radius: 2px;
+    }
+
+    .edit-prompt {
+        position: absolute;
+        bottom: 250px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .locker:not(.side):hover .edit-prompt {
+        opacity: 1;
+    }
+</style>
+</head>
+<body>
+
+<div class="lockers-container" id="lockersContainer"></div>
+
+<script>
+    const container = document.getElementById('lockersContainer');
+    const LOCKERS_PER_SIDE = 5; // Number of lockers on each side
+    let isUpdating = false;
+    
+    function createLocker(number, isCenter = false) {
+        const locker = document.createElement('div');
+        locker.className = isCenter ? 'locker' : 'locker side';
+        
+        locker.innerHTML = `
+            ${isCenter ? '<div class="edit-prompt">Click to edit</div>' : ''}
+            <div class="number" ${isCenter ? 'id="lockerNumber" contenteditable="true"' : ''}>${number}</div>
+            <div class="keypad-container">
+                <div class="keypad">
+                    <div class="status-light"></div>
+                    <div class="keys-grid">
+                        <div class="key"></div>
+                        <div class="key"></div>
+                        <div class="key"></div>
+                        <div class="key"></div>
+                        <div class="key"></div>
+                        <div class="key"></div>
+                        <div class="key"></div>
+                        <div class="key"></div>
+                        <div class="key"></div>
+                        <div class="key"></div>
+                        <div class="key"></div>
+                        <div class="key"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        return locker;
+    }
+    
+    function updateSideLockers(centerNumber) {
+        const sideLockers = document.querySelectorAll('.locker.side .number');
+        const leftLockers = Array.from(sideLockers).slice(0, LOCKERS_PER_SIDE);
+        const rightLockers = Array.from(sideLockers).slice(LOCKERS_PER_SIDE);
+        
+        leftLockers.forEach((locker, index) => {
+            locker.textContent = centerNumber - (LOCKERS_PER_SIDE - index);
+        });
+        
+        rightLockers.forEach((locker, index) => {
+            locker.textContent = centerNumber + (index + 1);
+        });
+    }
+    
+    function renderLockers(centerNumber) {
+        container.innerHTML = '';
+        
+        // Create left lockers (in reverse order)
+        for (let i = LOCKERS_PER_SIDE; i >= 1; i--) {
+            container.appendChild(createLocker(centerNumber - i, false));
+        }
+        
+        // Create center locker
+        container.appendChild(createLocker(centerNumber, true));
+        
+        // Create right lockers
+        for (let i = 1; i <= LOCKERS_PER_SIDE; i++) {
+            container.appendChild(createLocker(centerNumber + i, false));
+        }
+        
+        // Re-attach event listeners to the center locker
+        attachEventListeners();
+    }
+    
+    function attachEventListeners() {
+        const lockerNumber = document.getElementById('lockerNumber');
+        
+        // Save to localStorage when number changes
+        lockerNumber.addEventListener('blur', function() {
+            const value = this.textContent.trim();
+            if (value) {
+                localStorage.setItem('lockerNumber', value);
+            }
+        });
+        
+        // Update side lockers on input without re-rendering
+        lockerNumber.addEventListener('input', function() {
+            if (isUpdating) return;
+            
+            isUpdating = true;
+            this.textContent = this.textContent.replace(/[^0-9]/g, '');
+            const value = parseInt(this.textContent.trim()) || 0;
+            updateSideLockers(value);
+            
+            // Move cursor to end
+            setTimeout(() => {
+                const range = document.createRange();
+                const sel = window.getSelection();
+                range.selectNodeContents(this);
+                range.collapse(false);
+                sel.removeAllRanges();
+                sel.addRange(range);
+                isUpdating = false;
+            }, 0);
+        });
+        
+        // Select all text when clicked
+        lockerNumber.addEventListener('focus', function() {
+            const range = document.createRange();
+            range.selectNodeContents(this);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        });
+    }
+    
+    // Load saved number on page load
+    window.addEventListener('load', function() {
+        const savedNumber = localStorage.getItem('lockerNumber');
+        const initialNumber = savedNumber ? parseInt(savedNumber) : 732;
+        renderLockers(initialNumber);
+    });
+</script>
+
+</body>
+</html>
