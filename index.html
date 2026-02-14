@@ -208,16 +208,51 @@
 
         .lockers-container {
             margin-top: 0;
+            gap: 8px;
+        }
+
+        .locker {
+            width: 240px;
+            height: 500px;
+        }
+
+        .number {
+            bottom: 170px;
+            font-size: 36px;
+        }
+
+        .keypad-container {
+            bottom: 60px;
+        }
+
+        .keypad {
+            width: 55px;
+            height: 85px;
+        }
+
+        .keys-grid {
+            height: 70px;
+        }
+
+        .edit-prompt {
+            bottom: 210px;
+            font-size: 11px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .lockers-container {
+            gap: 5px;
         }
 
         .locker {
             width: 200px;
-            height: 450px;
+            height: 420px;
         }
 
         .number {
-            bottom: 150px;
-            font-size: 32px;
+            bottom: 140px;
+            font-size: 30px;
         }
 
         .keypad-container {
@@ -226,54 +261,16 @@
 
         .keypad {
             width: 50px;
-            height: 80px;
+            height: 75px;
         }
 
         .keys-grid {
-            height: 65px;
+            height: 60px;
         }
 
         .edit-prompt {
-            bottom: 190px;
+            bottom: 175px;
             font-size: 10px;
-        }
-
-        .lockers-container {
-            gap: 15px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .locker {
-            width: 150px;
-            height: 350px;
-        }
-
-        .number {
-            bottom: 110px;
-            font-size: 24px;
-        }
-
-        .keypad-container {
-            bottom: 35px;
-        }
-
-        .keypad {
-            width: 40px;
-            height: 65px;
-        }
-
-        .keys-grid {
-            height: 50px;
-        }
-
-        .edit-prompt {
-            bottom: 140px;
-            font-size: 9px;
-        }
-
-        .lockers-container {
-            gap: 10px;
         }
     }
 </style>
@@ -297,7 +294,7 @@
         
         locker.innerHTML = `
             ${isCenter ? '<div class="edit-prompt">Click to edit</div>' : ''}
-            <div class="number" ${isCenter ? 'id="lockerNumber" contenteditable="true"' : ''}>${number}</div>
+            <div class="number" ${isCenter ? 'id="lockerNumber" contenteditable="true" inputmode="numeric"' : ''}>${number}</div>
             <div class="keypad-container">
                 <div class="keypad">
                     <div class="status-light"></div>
