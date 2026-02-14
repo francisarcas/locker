@@ -5,9 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Locker Door</title>
 <style>
+    * {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    html {
+        overflow: hidden;
+        height: 100%;
+        width: 100%;
+        position: fixed;
+    }
+
     body {
         margin: 0;
         height: 100vh;
+        width: 100vw;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -15,6 +27,8 @@
         background: #111;
         font-family: Arial, sans-serif;
         overflow: hidden;
+        position: fixed;
+        overscroll-behavior: none;
     }
 
     .logo {
@@ -32,7 +46,7 @@
 
     .lockers-container {
         display: flex;
-        gap: 30px;
+        gap: 15px;
         align-items: center;
         position: relative;
     }
@@ -90,6 +104,7 @@
         cursor: pointer;
         user-select: none;
         transition: transform 0.1s;
+        touch-action: manipulation;
     }
 
     .locker:not(.side) .number:hover {
@@ -287,6 +302,13 @@
     const container = document.getElementById('lockersContainer');
     const LOCKERS_PER_SIDE = 5; // Number of lockers on each side
     let isUpdating = false;
+    
+    // Prevent scrolling on mobile
+    document.addEventListener('touchmove', function(e) {
+        if (e.target.id !== 'lockerNumber') {
+            e.preventDefault();
+        }
+    }, { passive: false });
     
     function createLocker(number, isCenter = false) {
         const locker = document.createElement('div');
