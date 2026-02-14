@@ -145,36 +145,18 @@
         background: #0f0;
         border-radius: 50%;
         box-shadow: 0 0 6px rgba(0, 255, 0, 0.9);
-        animation: blink 2s infinite;
         z-index: 1;
+        transition: opacity 0.1s, box-shadow 0.1s;
     }
 
     .locker.side .status-light {
         background: #f00;
         box-shadow: 0 0 6px rgba(255, 0, 0, 0.9);
-        animation: blinkRed 2s infinite;
     }
 
-    @keyframes blink {
-        0%, 50% {
-            opacity: 1;
-            box-shadow: 0 0 6px rgba(0, 255, 0, 0.9);
-        }
-        51%, 100% {
-            opacity: 0;
-            box-shadow: none;
-        }
-    }
-
-    @keyframes blinkRed {
-        0%, 50% {
-            opacity: 1;
-            box-shadow: 0 0 6px rgba(255, 0, 0, 0.9);
-        }
-        51%, 100% {
-            opacity: 0;
-            box-shadow: none;
-        }
+    .status-light.off {
+        opacity: 0;
+        box-shadow: none;
     }
 
     .keys-grid {
@@ -266,7 +248,7 @@
         }
 
         .number {
-            bottom: 140px;
+            bottom: 150px;
             font-size: 30px;
         }
 
@@ -302,6 +284,7 @@
     const container = document.getElementById('lockersContainer');
     const LOCKERS_PER_SIDE = 5; // Number of lockers on each side
     let isUpdating = false;
+    let lightIntervals = [];
     
     // Prevent scrolling on mobile
     document.addEventListener('touchmove', function(e) {
@@ -341,6 +324,38 @@
         return locker;
     }
     
+    function startRandomBlinking() {
+        // Clear any existing intervals
+        lightIntervals.forEach(interval => clearInterval(interval));
+        lightIntervals = [];
+        
+        // Get all status lights
+        const lights = document.querySelectorAll('.status-light');
+        
+        lights.forEach((light, index) => {
+            // Random interval between 0.8 and 2 seconds for each light
+            const randomInterval = Math.random() * 1200 + 800;
+            
+            // Random initial delay to desynchronize lights
+            const initialDelay = Math.random() * 1500;
+            
+            setTimeout(() => {
+                const interval = setInterval(() => {
+                    // Random blink duration between 150ms and 400ms (much shorter)
+                    const blinkDuration = Math.random() * 500 + 500;
+                    
+                    light.classList.add('off');
+                    
+                    setTimeout(() => {
+                        light.classList.remove('off');
+                    }, blinkDuration);
+                }, randomInterval);
+                
+                lightIntervals.push(interval);
+            }, initialDelay);
+        });
+    }
+    
     function updateSideLockers(centerNumber) {
         const sideLockers = document.querySelectorAll('.locker.side .number');
         const leftLockers = Array.from(sideLockers).slice(0, LOCKERS_PER_SIDE);
@@ -373,6 +388,9 @@
         
         // Re-attach event listeners to the center locker
         attachEventListeners();
+        
+        // Start random blinking for all lights
+        startRandomBlinking();
     }
     
     function attachEventListeners() {
