@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Locker Door</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
     * {
         -webkit-overflow-scrolling: touch;
@@ -40,7 +41,7 @@
     }
 
     .logo img {
-        height: 90px;
+        height: 120px;
         width: auto;
     }
 
@@ -171,6 +172,17 @@
     .key {
         background: #333;
         border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #606060;
+        font-size: 10px;
+        font-weight: bold;
+    }
+
+    .key i {
+        font-size: 8px;
+        color: #606060;
     }
 
     .edit-prompt {
@@ -304,18 +316,18 @@
                 <div class="keypad">
                     <div class="status-light"></div>
                     <div class="keys-grid">
-                        <div class="key"></div>
-                        <div class="key"></div>
-                        <div class="key"></div>
-                        <div class="key"></div>
-                        <div class="key"></div>
-                        <div class="key"></div>
-                        <div class="key"></div>
-                        <div class="key"></div>
-                        <div class="key"></div>
-                        <div class="key"></div>
-                        <div class="key"></div>
-                        <div class="key"></div>
+                        <div class="key">1</div>
+                        <div class="key">2</div>
+                        <div class="key">3</div>
+                        <div class="key">4</div>
+                        <div class="key">5</div>
+                        <div class="key">6</div>
+                        <div class="key">7</div>
+                        <div class="key">8</div>
+                        <div class="key">9</div>
+                        <div class="key">*</div>
+                        <div class="key">0</div>
+                        <div class="key"><i class="fa-solid fa-key"></i></div>
                     </div>
                 </div>
             </div>
