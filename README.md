@@ -183,7 +183,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📞 Contact
 
-Francis Arcas - [@francisarcas](https://www.linkedin.com/in/francisarcas)
+Francis Arcas - [Linkedin](https://www.linkedin.com/in/francisarcas)
 
 Project Link: [https://francisarcas.github.io/locker](https://francisarcas.github.io/locker)
 
