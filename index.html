@@ -190,21 +190,6 @@
         color: #606060;
     }
 
-    .edit-prompt {
-        position: absolute;
-        bottom: 250px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.5);
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-
-    .locker:not(.side):hover .edit-prompt {
-        opacity: 1;
-    }
-
     /* Mobile responsive styles */
     @media (max-width: 768px) {
         body {
@@ -248,10 +233,6 @@
             height: 70px;
         }
 
-        .edit-prompt {
-            bottom: 210px;
-            font-size: 11px;
-        }
     }
 
     @media (max-width: 480px) {
@@ -282,10 +263,6 @@
             height: 60px;
         }
 
-        .edit-prompt {
-            bottom: 175px;
-            font-size: 10px;
-        }
     }
 </style>
 </head>
@@ -319,7 +296,6 @@
         locker.className = isCenter ? 'locker' : (shouldHide ? 'locker side hidden' : 'locker side');
         
         locker.innerHTML = `
-            ${isCenter ? '<div class="edit-prompt">Click to edit</div>' : ''}
             <div class="number" ${isCenter ? 'id="lockerNumber" contenteditable="true" inputmode="numeric"' : ''}>${number}</div>
             <div class="keypad-container">
                 <div class="keypad">
