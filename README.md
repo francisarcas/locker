@@ -1,4 +1,4 @@
-# Locker Door
+ Locker Door
 
 A sleek, interactive web-based locker visualization tool with a realistic 3D appearance and dynamic number selection.
 
@@ -10,6 +10,8 @@ A sleek, interactive web-based locker visualization tool with a realistic 3D app
 ## 🎯 Overview
 
 Locker Door is a minimalist web application that displays an interactive row of gym lockers with realistic styling and animations. Users can select and view any locker number, with the interface dynamically updating to show surrounding lockers in context.
+
+**Note**: This tool comes styled with the Third Space gym logo by default, but can be easily customized or removed to suit your needs.
 
 ## ✨ Features
 
@@ -24,8 +26,11 @@ Locker Door is a minimalist web application that displays an interactive row of 
 - **Persistent State**: Remembers your last selected locker using localStorage
 - **Fully Responsive**: Optimized for desktop, tablet, and mobile devices
 - **Touch-Friendly**: Designed with mobile-first interactions in mind
+- **Customizable Branding**: Easy to replace or remove the default logo
 
 ## 🚀 Demo
+
+[**Live Demo**](https://francisarcas.github.io/locker)
 
 Simply open the HTML file in any modern web browser to see it in action.
 
@@ -57,12 +62,12 @@ Responsive design scales appropriately for smaller screens while maintaining fun
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/locker-door.git
+git clone https://github.com/francisarcas/locker.git
 ```
 
 2. Navigate to the project directory:
 ```bash
-cd locker-door
+cd locker
 ```
 
 3. Open `index.html` in your preferred browser:
@@ -89,13 +94,29 @@ No build process or dependencies required!
 
 ## 🎨 Customization
 
+### Removing or Changing the Logo
+
+To **remove** the logo completely, delete this section from the HTML:
+```html
+<div class="logo">
+    <img src="https://www.thirdspace.london/wp-content/uploads/2024/07/art_1.svg" alt="Third Space">
+</div>
+```
+
+To **replace** with your own logo, simply change the image source:
+```html
+<div class="logo">
+    <img src="path/to/your-logo.svg" alt="Your Brand">
+</div>
+```
+
 ### Changing the Number of Side Lockers
 Edit the `LOCKERS_PER_SIDE` constant in the JavaScript:
 ```javascript
 const LOCKERS_PER_SIDE = 5; // Change to your preferred number
 ```
 
-### Adjusting Colors
+### Adjusting Locker Colors
 Modify the CSS gradient in the `.locker` class:
 ```css
 background: linear-gradient(
@@ -114,6 +135,15 @@ const randomInterval = Math.random() * 1200 + 800; // Adjust timing
 const blinkDuration = Math.random() * 500 + 500;   // Adjust duration
 ```
 
+### Changing Locker Dimensions
+Modify the `.locker` class dimensions:
+```css
+.locker {
+    width: 280px;  /* Adjust width */
+    height: 600px; /* Adjust height */
+}
+```
+
 ## 🔧 Configuration
 
 ### Favicon Setup
@@ -124,12 +154,6 @@ Place your favicon files in the `assets/favicon/` directory:
 - `apple-touch-icon.png`
 - `android-chrome-192x192.png`
 - `android-chrome-512x512.png`
-
-### Logo Customization
-Replace the logo URL in the HTML:
-```html
-<img src="your-logo-url.svg" alt="Your Brand">
-```
 
 ## 🌐 Browser Support
 
@@ -159,15 +183,25 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📞 Contact
 
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
+Francis Arcas - [@francisarcas](https://www.linkedin.com/in/francisarcas)
 
-Project Link: [https://github.com/yourusername/locker-door](https://github.com/yourusername/locker-door)
+Project Link: [https://francisarcas.github.io/locker](https://francisarcas.github.io/locker)
+
+Repository: [https://github.com/francisarcas/locker](https://github.com/francisarcas/locker)
 
 ## 🙏 Acknowledgments
 
 - Font Awesome for the icon library
 - Inspired by Third Space gym locker systems
 - Built with vanilla JavaScript for maximum compatibility
+
+## 💼 Use Cases
+
+- Gym locker management visualization
+- Educational demonstrations
+- UI/UX portfolio projects
+- Interactive number selection interfaces
+- Facility management tools
 
 ---
 
