@@ -76,6 +76,11 @@
         pointer-events: none;
     }
 
+    .locker.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
     /* subtle vertical brushed texture */
     .locker::before {
         content: "";
@@ -211,7 +216,7 @@
             position: relative;
             top: 0;
             left: 0;
-            transform: scale(0.25);
+            transform: scale(0.20);
             margin-bottom: 30px;
         }
 
@@ -305,9 +310,13 @@
         }
     }, { passive: false });
     
-    function createLocker(number, isCenter = false) {
+    function padNumber(num, length) {
+        return String(num).padStart(length, '0');
+    }
+    
+    function createLocker(number, isCenter = false, shouldHide = false) {
         const locker = document.createElement('div');
-        locker.className = isCenter ? 'locker' : 'locker side';
+        locker.className = isCenter ? 'locker' : (shouldHide ? 'locker side hidden' : 'locker side');
         
         locker.innerHTML = `
             ${isCenter ? '<div class="edit-prompt">Click to edit</div>' : ''}
@@ -341,8 +350,8 @@
         lightIntervals.forEach(interval => clearInterval(interval));
         lightIntervals = [];
         
-        // Get all status lights
-        const lights = document.querySelectorAll('.status-light');
+        // Get all status lights (excluding hidden lockers)
+        const lights = document.querySelectorAll('.locker:not(.hidden) .status-light');
         
         lights.forEach((light, index) => {
             // Random interval between 0.8 and 2 seconds for each light
@@ -368,34 +377,59 @@
         });
     }
     
-    function updateSideLockers(centerNumber) {
-        const sideLockers = document.querySelectorAll('.locker.side .number');
+    function updateSideLockers(centerNumberStr) {
+        const centerNum = parseInt(centerNumberStr);
+        const numLength = centerNumberStr.length;
+        
+        const sideLockers = document.querySelectorAll('.locker.side');
         const leftLockers = Array.from(sideLockers).slice(0, LOCKERS_PER_SIDE);
         const rightLockers = Array.from(sideLockers).slice(LOCKERS_PER_SIDE);
         
         leftLockers.forEach((locker, index) => {
-            locker.textContent = centerNumber - (LOCKERS_PER_SIDE - index);
+            const newNum = centerNum - (LOCKERS_PER_SIDE - index);
+            const numberElement = locker.querySelector('.number');
+            
+            if (newNum < 0) {
+                locker.classList.add('hidden');
+            } else {
+                locker.classList.remove('hidden');
+                numberElement.textContent = padNumber(newNum, numLength);
+            }
         });
         
         rightLockers.forEach((locker, index) => {
-            locker.textContent = centerNumber + (index + 1);
+            const newNum = centerNum + (index + 1);
+            const numberElement = locker.querySelector('.number');
+            numberElement.textContent = padNumber(newNum, numLength);
+            locker.classList.remove('hidden');
         });
+        
+        // Restart blinking for visible lights only
+        startRandomBlinking();
     }
     
-    function renderLockers(centerNumber) {
+    function renderLockers(centerNumberStr) {
         container.innerHTML = '';
+        
+        const centerNum = parseInt(centerNumberStr);
+        const numLength = centerNumberStr.length;
         
         // Create left lockers (in reverse order)
         for (let i = LOCKERS_PER_SIDE; i >= 1; i--) {
-            container.appendChild(createLocker(centerNumber - i, false));
+            const lockerNum = centerNum - i;
+            const shouldHide = lockerNum < 0;
+            const displayNum = shouldHide ? '0' : padNumber(lockerNum, numLength);
+            container.appendChild(createLocker(displayNum, false, shouldHide));
         }
         
         // Create center locker
-        container.appendChild(createLocker(centerNumber, true));
+        container.appendChild(createLocker(centerNumberStr, true, false));
         
         // Create right lockers
         for (let i = 1; i <= LOCKERS_PER_SIDE; i++) {
-            container.appendChild(createLocker(centerNumber + i, false));
+            const lockerNum = centerNum + i;
+            const displayNum = padNumber(lockerNum, numLength);
+            container.appendChild(createLocker(displayNum, false, false));
         }
         
         // Re-attach event listeners to the center locker
@@ -422,8 +456,10 @@
             
             isUpdating = true;
             this.textContent = this.textContent.replace(/[^0-9]/g, '');
-            const value = parseInt(this.textContent.trim()) || 0;
-            updateSideLockers(value);
+            const value = this.textContent.trim();
+            if (value) {
+                updateSideLockers(value);
+            }
             
             // Move cursor to end
             setTimeout(() => {
@@ -450,7 +486,7 @@
     // Load saved number on page load
     window.addEventListener('load', function() {
         const savedNumber = localStorage.getItem('lockerNumber');
-        const initialNumber = savedNumber ? parseInt(savedNumber) : 732;
+        const initialNumber = savedNumber || '732';
         renderLockers(initialNumber);
     });
 </script>
