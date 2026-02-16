@@ -13,7 +13,6 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/android-chrome-192x192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon/android-chrome-512x512.png">
 
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
     * {
@@ -23,6 +22,24 @@
     :root {
         --text: #f5f5f7;
         --muted: #9a9aa0;
+        --background: #111;
+        --locker-gradient-start: #d7a27a;
+        --locker-gradient-mid-light: #e2b18b;
+        --locker-gradient-mid-dark: #d19a73;
+        --locker-gradient-end: #c48763;
+        --locker-shadow-inset: rgba(0,0,0,0.15);
+        --locker-shadow-outer: rgba(0,0,0,0.4);
+        --locker-texture: rgba(255,255,255,0.05);
+        --number-color: #2b1a12;
+        --number-shadow: rgba(0,0,0,0.2);
+        --keypad-bg: #1b1b1b;
+        --keypad-inset-shadow: rgba(255,255,255,0.1);
+        --status-light-green: #0f0;
+        --status-light-green-glow: rgba(0, 255, 0, 0.9);
+        --status-light-red: #f00;
+        --status-light-red-glow: rgba(255, 0, 0, 0.9);
+        --key-bg: #333;
+        --key-text: #606060;
     }
     
     html {
@@ -40,7 +57,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background: #111;
+        background: var(--background);
         font-family: Arial, sans-serif;
         overflow: hidden;
         position: fixed;
@@ -72,14 +89,14 @@
         height: 600px;
         background: linear-gradient(
             to bottom,
-            #d7a27a 0%,
-            #e2b18b 30%,
-            #d19a73 60%,
-            #c48763 100%
+            var(--locker-gradient-start) 0%,
+            var(--locker-gradient-mid-light) 30%,
+            var(--locker-gradient-mid-dark) 60%,
+            var(--locker-gradient-end) 100%
         );
         border-radius: 6px;
-        box-shadow: inset 0 0 30px rgba(0,0,0,0.15),
-                    0 10px 25px rgba(0,0,0,0.4);
+        box-shadow: inset 0 0 30px var(--locker-shadow-inset),
+                    0 10px 25px var(--locker-shadow-outer);
         position: relative;
         overflow: hidden;
         transition: opacity 0.3s;
@@ -103,8 +120,8 @@
         inset: 0;
         background: repeating-linear-gradient(
             to right,
-            rgba(255,255,255,0.05) 0px,
-            rgba(255,255,255,0.05) 1px,
+            var(--locker-texture) 0px,
+            var(--locker-texture) 1px,
             transparent 1px,
             transparent 3px
         );
@@ -119,8 +136,8 @@
         transform: translateX(-50%);
         font-size: 42px;
         font-weight: bold;
-        color: #2b1a12;
-        text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        color: var(--number-color);
+        text-shadow: 0 2px 3px var(--number-shadow);
         letter-spacing: 3px;
         cursor: pointer;
         user-select: none;
@@ -150,10 +167,10 @@
     .keypad {
         width: 60px;
         height: 95px;
-        background: #1b1b1b;
+        background: var(--keypad-bg);
         border-radius: 4px;
         padding: 6px;
-        box-shadow: inset 0 0 6px rgba(255,255,255,0.1);
+        box-shadow: inset 0 0 6px var(--keypad-inset-shadow);
         position: relative;
     }
 
@@ -163,16 +180,16 @@
         left: 6px;
         width: 5px;
         height: 5px;
-        background: #0f0;
+        background: var(--status-light-green);
         border-radius: 50%;
-        box-shadow: 0 0 6px rgba(0, 255, 0, 0.9);
+        box-shadow: 0 0 6px var(--status-light-green-glow);
         z-index: 1;
         transition: opacity 0.1s, box-shadow 0.1s;
     }
 
     .locker.side .status-light {
-        background: #f00;
-        box-shadow: 0 0 6px rgba(255, 0, 0, 0.9);
+        background: var(--status-light-red);
+        box-shadow: 0 0 6px var(--status-light-red-glow);
     }
 
     .status-light.off {
@@ -190,43 +207,49 @@
     }
 
     .key {
-        background: #333;
+        background: var(--key-bg);
         border-radius: 2px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #606060;
+        color: var(--key-text);
         font-size: 10px;
         font-weight: bold;
     }
 
     .key i {
         font-size: 8px;
-        color: #606060;
+        color: var(--key-text);
     }
 
     /* Footer */
     .footer {
-    padding: 20px;
-    text-align: center;
-    font-size: 0.9em;
-    color: var(--muted);
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 15px 20px;
+        text-align: center;
+        font-size: 0.9em;
+        color: var(--muted);
+        background: var(--background);
+        z-index: 5;
     }
 
     .footer-link {
-    color: var(--muted);
-    text-decoration: none;
-    display: inline-block;
-    transition: color 0.2s ease;
+        color: var(--muted);
+        text-decoration: none;
+        display: inline-block;
+        transition: color 0.2s ease;
     }
 
     .footer-link:hover {
-    color: var(--text);
+        color: var(--text);
     }
 
     .footer-icon {
-    font-size: 1.5em;
-    padding: 0 5px;
+        font-size: 1.5em;
+        padding: 0 5px;
     }
 
     /* Mobile responsive styles */
@@ -272,6 +295,14 @@
             height: 70px;
         }
 
+        .footer {
+            padding: 10px 15px;
+            font-size: 0.85em;
+        }
+
+        .footer-icon {
+            font-size: 1.3em;
+        }
     }
 
     @media (max-width: 480px) {
@@ -302,6 +333,15 @@
             height: 60px;
         }
 
+        .footer {
+            padding: 8px 10px;
+            font-size: 0.8em;
+        }
+
+        .footer-icon {
+            font-size: 1.2em;
+            padding: 0 3px;
+        }
     }
 </style>
 </head>
@@ -321,7 +361,8 @@
     <a href="https://github.com/francisarcas" target="_blank" class="footer-link" title="TFL Tracker GitHub">
       <i class="fa-brands fa-github footer-icon"></i>
     </a>
-  </div>
+</div>
+
 <script>
     const container = document.getElementById('lockersContainer');
     const LOCKERS_PER_SIDE = 5; // Number of lockers on each side
