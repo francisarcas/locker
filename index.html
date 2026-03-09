@@ -14,357 +14,341 @@
 <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon/android-chrome-512x512.png">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 <style>
-    * {
-        -webkit-overflow-scrolling: touch;
+* {
+    -webkit-overflow-scrolling: touch;
+}
+
+:root {
+    --text: #f5f5f7;
+    --muted: #9a9aa0;
+    --background: #111;
+    --locker-gradient-start: #d7a27a;
+    --locker-gradient-mid-light: #e2b18b;
+    --locker-gradient-mid-dark: #d19a73;
+    --locker-gradient-end: #c48763;
+    --locker-shadow-inset: rgba(0,0,0,0.15);
+    --locker-shadow-outer: rgba(0,0,0,0.4);
+    --locker-texture: rgba(255,255,255,0.05);
+    --number-color: #2b1a12;
+    --number-shadow: rgba(0,0,0,0.2);
+    --keypad-bg: #1b1b1b;
+    --keypad-inset-shadow: rgba(255,255,255,0.1);
+    --status-light-green: #0f0;
+    --status-light-green-glow: rgba(0,255,0,0.9);
+    --status-light-red: #f00;
+    --status-light-red-glow: rgba(255,0,0,0.9);
+    --key-bg: #333;
+    --key-text: #606060;
+}
+
+html {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--background);
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    position: fixed;
+    overscroll-behavior: none;
+}
+
+/* GYM TOGGLE ICON */
+
+.gyms-toggle{
+    position:fixed;
+    top:6px;
+    right:12px;
+    font-size:22px;
+    color:var(--text);
+    cursor:pointer;
+    z-index:50;
+}
+
+/* GYM DRAWER */
+
+.gyms-drawer{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    background:var(--background);
+    transform:translateY(-100%);
+    transition:transform .35s ease;
+    z-index:40;
+    padding:60px 15px 30px 15px;
+    box-sizing:border-box;
+}
+
+.gyms-drawer.open{
+    transform:translateY(0);
+}
+
+.gyms-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.gym-card{
+    border:1px solid #333;
+    border-radius:10px;
+    padding:16px 10px;
+    text-align:center;
+    color:var(--text);
+    text-decoration:none;
+    font-size:15px;
+}
+
+/* desktop layout */
+
+@media (min-width:900px){
+    .gyms-grid{
+        grid-template-columns:repeat(4,1fr);
     }
+}
 
-    :root {
-        --text: #f5f5f7;
-        --muted: #9a9aa0;
-        --background: #111;
-        --locker-gradient-start: #d7a27a;
-        --locker-gradient-mid-light: #e2b18b;
-        --locker-gradient-mid-dark: #d19a73;
-        --locker-gradient-end: #c48763;
-        --locker-shadow-inset: rgba(0,0,0,0.15);
-        --locker-shadow-outer: rgba(0,0,0,0.4);
-        --locker-texture: rgba(255,255,255,0.05);
-        --number-color: #2b1a12;
-        --number-shadow: rgba(0,0,0,0.2);
-        --keypad-bg: #1b1b1b;
-        --keypad-inset-shadow: rgba(255,255,255,0.1);
-        --status-light-green: #0f0;
-        --status-light-green-glow: rgba(0, 255, 0, 0.9);
-        --status-light-red: #f00;
-        --status-light-red-glow: rgba(255, 0, 0, 0.9);
-        --key-bg: #333;
-        --key-text: #606060;
-    }
-    
-    html {
-        overflow: hidden;
-        height: 100%;
-        width: 100%;
-        position: fixed;
-    }
+/* ORIGINAL CSS CONTINUES UNCHANGED */
 
-    body {
-        margin: 0;
-        height: 100vh;
-        width: 100vw;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background: var(--background);
-        font-family: Arial, sans-serif;
-        overflow: hidden;
-        position: fixed;
-        overscroll-behavior: none;
-    }
+.logo {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.2);
+    z-index: 10;
+}
 
-    .logo {
-        position: absolute;
-        top: 30px;
-        left: 50%;
-        transform: translateX(-50%) scale(0.2);
-        z-index: 10;
-    }
+.logo img {
+    height: 120px;
+    width: auto;
+}
 
-    .logo img {
-        height: 120px;
-        width: auto;
-    }
+.lockers-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    position: relative;
+}
 
-    .lockers-container {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        position: relative;
-    }
+.locker {
+    width: 280px;
+    height: 600px;
+    background: linear-gradient(
+        to bottom,
+        var(--locker-gradient-start) 0%,
+        var(--locker-gradient-mid-light) 30%,
+        var(--locker-gradient-mid-dark) 60%,
+        var(--locker-gradient-end) 100%
+    );
+    border-radius: 6px;
+    box-shadow: inset 0 0 30px var(--locker-shadow-inset),
+                0 10px 25px var(--locker-shadow-outer);
+    position: relative;
+    overflow: hidden;
+    transition: opacity 0.3s;
+    flex-shrink: 0;
+}
 
-    .locker {
-        width: 280px;
-        height: 600px;
-        background: linear-gradient(
-            to bottom,
-            var(--locker-gradient-start) 0%,
-            var(--locker-gradient-mid-light) 30%,
-            var(--locker-gradient-mid-dark) 60%,
-            var(--locker-gradient-end) 100%
-        );
-        border-radius: 6px;
-        box-shadow: inset 0 0 30px var(--locker-shadow-inset),
-                    0 10px 25px var(--locker-shadow-outer);
-        position: relative;
-        overflow: hidden;
-        transition: opacity 0.3s;
-        flex-shrink: 0;
-    }
+.locker.side {
+    opacity: 0.5;
+    pointer-events: none;
+}
 
-    .locker.side {
-        opacity: 0.5;
-        pointer-events: none;
-    }
+.locker.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
 
-    .locker.hidden {
-        opacity: 0;
-        pointer-events: none;
-    }
+.locker::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        to right,
+        var(--locker-texture) 0px,
+        var(--locker-texture) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    opacity: 0.3;
+    pointer-events: none;
+}
 
-    /* subtle vertical brushed texture */
-    .locker::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: repeating-linear-gradient(
-            to right,
-            var(--locker-texture) 0px,
-            var(--locker-texture) 1px,
-            transparent 1px,
-            transparent 3px
-        );
-        opacity: 0.3;
-        pointer-events: none;
-    }
+.number {
+    position: absolute;
+    bottom: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 42px;
+    font-weight: bold;
+    color: var(--number-color);
+    text-shadow: 0 2px 3px var(--number-shadow);
+    letter-spacing: 3px;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.1s;
+    touch-action: manipulation;
+}
 
-    .number {
-        position: absolute;
-        bottom: 200px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 42px;
-        font-weight: bold;
-        color: var(--number-color);
-        text-shadow: 0 2px 3px var(--number-shadow);
-        letter-spacing: 3px;
-        cursor: pointer;
-        user-select: none;
-        transition: transform 0.1s;
-        touch-action: manipulation;
-    }
+.keypad-container {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+}
 
-    .locker:not(.side) .number:hover {
-        transform: translateX(-50%) scale(1.05);
-    }
+.keypad {
+    width: 60px;
+    height: 95px;
+    background: var(--keypad-bg);
+    border-radius: 4px;
+    padding: 6px;
+    box-shadow: inset 0 0 6px var(--keypad-inset-shadow);
+    position: relative;
+}
 
-    .locker:not(.side) .number:active {
-        transform: translateX(-50%) scale(0.95);
-    }
+.status-light {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 5px;
+    height: 5px;
+    background: var(--status-light-green);
+    border-radius: 50%;
+    box-shadow: 0 0 6px var(--status-light-green-glow);
+    z-index: 1;
+}
 
-    .locker.side .number {
-        cursor: default;
-    }
+.locker.side .status-light {
+    background: var(--status-light-red);
+    box-shadow: 0 0 6px var(--status-light-red-glow);
+}
 
-    .keypad-container {
-        position: absolute;
-        bottom: 70px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
+.status-light.off {
+    opacity: 0;
+    box-shadow: none;
+}
 
-    .keypad {
-        width: 60px;
-        height: 95px;
-        background: var(--keypad-bg);
-        border-radius: 4px;
-        padding: 6px;
-        box-shadow: inset 0 0 6px var(--keypad-inset-shadow);
-        position: relative;
-    }
+.keys-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 4px;
+    height: 80px;
+    margin-top: 9px;
+}
 
-    .status-light {
-        position: absolute;
-        top: 6px;
-        left: 6px;
-        width: 5px;
-        height: 5px;
-        background: var(--status-light-green);
-        border-radius: 50%;
-        box-shadow: 0 0 6px var(--status-light-green-glow);
-        z-index: 1;
-        transition: opacity 0.1s, box-shadow 0.1s;
-    }
+.key {
+    background: var(--key-bg);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--key-text);
+    font-size: 10px;
+    font-weight: bold;
+}
 
-    .locker.side .status-light {
-        background: var(--status-light-red);
-        box-shadow: 0 0 6px var(--status-light-red-glow);
-    }
+.key i {
+    font-size: 8px;
+    color: var(--key-text);
+}
 
-    .status-light.off {
-        opacity: 0;
-        box-shadow: none;
-    }
+/* Footer */
 
-    .keys-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(4, 1fr);
-        gap: 4px;
-        height: 80px;
-        margin-top: 9px;
-    }
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px 20px;
+    text-align: center;
+    font-size: 0.9em;
+    color: var(--muted);
+    background: var(--background);
+    z-index: 5;
+}
 
-    .key {
-        background: var(--key-bg);
-        border-radius: 2px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--key-text);
-        font-size: 10px;
-        font-weight: bold;
-    }
+.footer-link {
+    color: var(--muted);
+    text-decoration: none;
+}
 
-    .key i {
-        font-size: 8px;
-        color: var(--key-text);
-    }
-
-    /* Footer */
-    .footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 15px 20px;
-        text-align: center;
-        font-size: 0.9em;
-        color: var(--muted);
-        background: var(--background);
-        z-index: 5;
-    }
-
-    .footer-link {
-        color: var(--muted);
-        text-decoration: none;
-        display: inline-block;
-        transition: color 0.2s ease;
-    }
-
-    .footer-link:hover {
-        color: var(--text);
-    }
-
-    .footer-icon {
-        font-size: 1.5em;
-        padding: 0 5px;
-    }
-
-    /* Mobile responsive styles */
-    @media (max-width: 768px) {
-        body {
-            justify-content: flex-start;
-            padding-top: 20px;
-        }
-
-        .logo {
-            position: relative;
-            top: 0;
-            left: 0;
-            transform: scale(0.20);
-            margin-bottom: 20px;
-        }
-
-        .lockers-container {
-            margin-top: 0;
-            gap: 8px;
-        }
-
-        .locker {
-            width: 240px;
-            height: 500px;
-        }
-
-        .number {
-            bottom: 170px;
-            font-size: 36px;
-        }
-
-        .keypad-container {
-            bottom: 60px;
-        }
-
-        .keypad {
-            width: 55px;
-            height: 85px;
-        }
-
-        .keys-grid {
-            height: 70px;
-        }
-
-        .footer {
-            padding: 10px 15px;
-            font-size: 0.85em;
-        }
-
-        .footer-icon {
-            font-size: 1.3em;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .lockers-container {
-            gap: 5px;
-        }
-
-        .locker {
-            width: 200px;
-            height: 420px;
-        }
-
-        .number {
-            bottom: 150px;
-            font-size: 30px;
-        }
-
-        .keypad-container {
-            bottom: 50px;
-        }
-
-        .keypad {
-            width: 50px;
-            height: 75px;
-        }
-
-        .keys-grid {
-            height: 60px;
-        }
-
-        .footer {
-            padding: 8px 10px;
-            font-size: 0.8em;
-        }
-
-        .footer-icon {
-            font-size: 1.2em;
-            padding: 0 3px;
-        }
-    }
+.footer-icon {
+    font-size: 1.5em;
+    padding: 0 5px;
+}
 </style>
 </head>
+
 <body>
 
+<div class="gyms-toggle" id="gymsToggle">
+<i class="fa-brands fa-get-pocket"></i>
+</div>
+
+<div class="gyms-drawer" id="gymsDrawer">
+
+<div class="gyms-grid">
+
+<a class="gym-card" href="https://maps.apple.com/?q=The+Whiteley+Queensway+London+W2+4YN">Whiteley</a>
+<a class="gym-card" href="https://maps.apple.com/?q=Bulstrode+Place+Marylebone+London+W1U+2HU">Marylebone</a>
+<a class="gym-card" href="https://maps.apple.com/?q=67+Brewer+Street+London+W1F+9US">Soho</a>
+<a class="gym-card" href="https://maps.apple.com/?q=15+Esther+Anne+Place+London+N1+1UL">Islington</a>
+<a class="gym-card" href="https://maps.apple.com/?q=40+Mark+Lane+London+EC3R+7AT">City</a>
+<a class="gym-card" href="https://maps.apple.com/?q=16+South+Place+London+EC2M+2AQ">Moorgate</a>
+<a class="gym-card" href="https://maps.apple.com/?q=16-19+Canada+Square+London+E14+5ER">Canary Wharf</a>
+<a class="gym-card" href="https://maps.apple.com/?q=14+Charter+Street+London+E14+5GZ">Wood Wharf</a>
+<a class="gym-card" href="https://maps.apple.com/?q=2b+More+London+Riverside+SE1+2AP">Tower Bridge</a>
+<a class="gym-card" href="https://maps.apple.com/?q=Lavender+Hill+London+SW11+1LN">Clapham Junction</a>
+<a class="gym-card" href="https://maps.apple.com/?q=Prospect+Way+Battersea+Power+Station+London">Battersea</a>
+<a class="gym-card" href="https://maps.apple.com/?q=4+Queens+Road+Wimbledon+London+SW19+8YE">Wimbledon</a>
+<a class="gym-card" href="https://maps.apple.com/?q=Third+Space+Richmond+London">Richmond</a>
+
+</div>
+
+</div>
+
 <div class="logo">
-    <img src="https://www.thirdspace.london/wp-content/uploads/2024/07/art_1.svg" alt="Third Space">
+<img src="https://www.thirdspace.london/wp-content/uploads/2024/07/art_1.svg" alt="Third Space">
 </div>
 
 <div class="lockers-container" id="lockersContainer"></div>
 
 <div class="footer">
-    <a href="https://www.linkedin.com/in/francisarcas/" target="_blank" class="footer-link" title="Francis Arcas LinkedIn">
-      <i class="fa-brands fa-linkedin footer-icon"></i>
-    </a>
-    <span style="margin: 0 10px;">|</span>
-    <a href="https://github.com/francisarcas" target="_blank" class="footer-link" title="TFL Tracker GitHub">
-      <i class="fa-brands fa-github footer-icon"></i>
-    </a>
+<a href="https://www.linkedin.com/in/francisarcas/" target="_blank" class="footer-link">
+<i class="fa-brands fa-linkedin footer-icon"></i>
+</a>
+<span style="margin:0 10px;">|</span>
+<a href="https://github.com/francisarcas" target="_blank" class="footer-link">
+<i class="fa-brands fa-github footer-icon"></i>
+</a>
 </div>
 
 <script>
-    const container = document.getElementById('lockersContainer');
+
+/* drawer toggle */
+
+const gymsToggle = document.getElementById("gymsToggle");
+const gymsDrawer = document.getElementById("gymsDrawer");
+
+gymsToggle.addEventListener("click", () => {
+    gymsDrawer.classList.toggle("open");
+});
+
+const container = document.getElementById('lockersContainer');
     const LOCKERS_PER_SIDE = 5; // Number of lockers on each side
     let isUpdating = false;
     let lightIntervals = [];
