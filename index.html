@@ -286,7 +286,7 @@ body {
 
 .gyms-grid{
     display:grid;
-    grid-template-columns:repeat(5,1fr);
+    grid-template-columns:repeat(6,1fr);
     gap:14px;
 }
 
@@ -330,6 +330,30 @@ body {
     font-size:17px;
     line-height:1;
     font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 20;
+}
+
+@media (max-width: 1520px) {
+  .gyms-grid{
+        grid-template-columns:repeat(5,1fr);
+    }
+}
+
+@media (max-width: 860px) {
+  .gyms-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
+}
+
+@media (max-width: 750px) {
+  .gyms-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
+@media (max-width: 560px) {
+  .gyms-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
 }
 
 /* ────────────────────────────────────────────────
@@ -387,7 +411,6 @@ body {
     font-size: 1.3em;
   }
   .gyms-grid{
-        grid-template-columns:repeat(2,1fr);
         gap:10px;
     }
   .gym-card{
@@ -445,7 +468,6 @@ body {
     padding: 0 3px;
   }
   .gyms-grid{
-    grid-template-columns:repeat(2,1fr);
     gap:8px;
     }
   .gym-card{
