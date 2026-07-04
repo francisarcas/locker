@@ -14,6 +14,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon/android-chrome-512x512.png">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
 
 <style>
 * {
@@ -292,11 +293,43 @@ body {
 .gym-card{
     border:1px solid #333;
     border-radius:10px;
-    padding:16px 10px;
+    padding:16px 10px 24px;
     text-align:center;
     color:var(--text);
     text-decoration:none;
     font-size:15px;
+    position:relative;
+    overflow:hidden;
+    min-height:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.gym-name{
+    position:relative;
+    z-index:1;
+}
+
+.gym-amenities{
+    position:absolute;
+    right:6px;
+    bottom:5px;
+    z-index:0;
+    display:flex;
+    justify-content:flex-end;
+    flex-wrap:nowrap;
+    gap:1px;
+    max-width:none;
+    white-space:nowrap;
+    color:rgba(245,245,247,.22);
+    pointer-events:none;
+}
+
+.gym-amenities .material-symbols-outlined{
+    font-size:17px;
+    line-height:1;
+    font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 20;
 }
 
 /* ────────────────────────────────────────────────
@@ -411,23 +444,23 @@ body {
 <div class="gyms-drawer" id="gymsDrawer">
 
 <div class="gyms-grid">
-  <a class="gym-card" href="https://maps.apple/p/-wcaH5s.6~i8GT">Battersea</a>
-  <a class="gym-card" href="https://maps.apple/p/-Uiz2DpKRLZsBA">Canary Wharf</a>
-  <a class="gym-card premium" href="https://maps.apple/p/hCLgP5gHuX-T0C">Chelsea</a>
-  <a class="gym-card" href="https://maps.apple/p/9cnHYesdQz9Xz-">City</a>
-  <a class="gym-card" href="https://maps.apple/p/oq-8_.euQ6sMgw">Clapham Junction</a>
-  <a class="gym-card" href="https://maps.apple/p/9Ld7cg_-1c__QL">Islington</a>
-  <a class="gym-card" href="https://maps.apple/p/IPdfnkBSrA3YAf">Marylebone</a>
-  <a class="gym-card premium" href="https://maps.apple/p/NpiHZAq5tSZDM6">Mayfair</a>
-  <a class="gym-card" href="https://maps.apple/p/qeo6ndUtXox~Fb">Moorgate</a>
-  <a class="gym-card" href="https://maps.apple/p/zdBTouELaA1YrY">Paternoster Square</a>
-  <a class="gym-card" href="https://maps.apple/p/KoWh8y~7bE6~7C">Queen's Park</a>
-  <a class="gym-card" href="https://maps.apple/p/hIYYkSGdb0dEi2">Richmond</a>
-  <a class="gym-card" href="https://maps.apple/p/4eQNqVI6ojR-.k">Soho</a>
-  <a class="gym-card" href="https://maps.apple/p/9iHv2GQ~hyS1FE">The Whiteley</a>
-  <a class="gym-card" href="https://maps.apple/p/yqikw85zxJSrAu">Tower Bridge</a>
-  <a class="gym-card" href="https://maps.apple/p/b2_-phdndH2Q8a">Wimbledon</a>
-  <a class="gym-card" href="https://maps.apple/p/rmnreMiusjNj_c">Wood Wharf</a>
+  <a class="gym-card" href="https://maps.apple/p/-wcaH5s.6~i8GT"><span class="gym-name">Battersea</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">pool</span><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">heat</span><span class="material-symbols-outlined">bubble_chart</span></span></a>
+  <a class="gym-card" href="https://maps.apple/p/-Uiz2DpKRLZsBA"><span class="gym-name">Canary Wharf</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">heat</span><span class="material-symbols-outlined">mode_cool</span><span class="material-symbols-outlined">sports_mma</span></span></a>
+  <a class="gym-card premium" href="https://maps.apple/p/hCLgP5gHuX-T0C"><span class="gym-name">Chelsea</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">pool</span><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">heat</span><span class="material-symbols-outlined">bubble_chart</span><span class="material-symbols-outlined">mode_cool</span></span></a>
+  <a class="gym-card" href="https://maps.apple/p/9cnHYesdQz9Xz-"><span class="gym-name">City</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">pool</span><span class="material-symbols-outlined">mode_cool</span></span></a>
+  <a class="gym-card" href="https://maps.apple/p/oq-8_.euQ6sMgw"><span class="gym-name">Clapham Junction</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">heat</span></span></a>
+  <a class="gym-card" href="https://maps.apple/p/9Ld7cg_-1c__QL"><span class="gym-name">Islington</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">pool</span><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">bubble_chart</span><span class="material-symbols-outlined">mode_cool</span></span></a>
+  <a class="gym-card" href="https://maps.apple/p/IPdfnkBSrA3YAf"><span class="gym-name">Marylebone</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">pool</span><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">heat</span></span></a>
+  <a class="gym-card premium" href="https://maps.apple/p/NpiHZAq5tSZDM6"><span class="gym-name">Mayfair</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">heat</span><span class="material-symbols-outlined">mode_cool</span></span></a>
+  <a class="gym-card" href="https://maps.apple/p/qeo6ndUtXox~Fb"><span class="gym-name">Moorgate</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">sports_mma</span></span></a>
+  <a class="gym-card" href="https://maps.apple/p/zdBTouELaA1YrY"><span class="gym-name">Paternoster Square</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">heat</span><span class="material-symbols-outlined">bubble_chart</span><span class="material-symbols-outlined">mode_cool</span></span></a>
+  <a class="gym-card" href="https://maps.apple/p/KoWh8y~7bE6~7C"><span class="gym-name">Queen's Park</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">heat</span><span class="material-symbols-outlined">bubble_chart</span><span class="material-symbols-outlined">mode_cool</span></span></a>
+  <a class="gym-card" href="https://maps.apple/p/hIYYkSGdb0dEi2"><span class="gym-name">Richmond</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">pool</span><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">heat</span><span class="material-symbols-outlined">bubble_chart</span></span></a>
+  <a class="gym-card" href="https://maps.apple/p/4eQNqVI6ojR-.k"><span class="gym-name">Soho</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">pool</span><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">heat</span><span class="material-symbols-outlined">sports_mma</span></span></a>
+  <a class="gym-card" href="https://maps.apple/p/9iHv2GQ~hyS1FE"><span class="gym-name">The Whiteley</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">pool</span><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">heat</span><span class="material-symbols-outlined">bubble_chart</span><span class="material-symbols-outlined">mode_cool</span><span class="material-symbols-outlined">sports_mma</span></span></a>
+  <a class="gym-card" href="https://maps.apple/p/yqikw85zxJSrAu"><span class="gym-name">Tower Bridge</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">pool</span><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">heat</span><span class="material-symbols-outlined">mode_cool</span></span></a>
+  <a class="gym-card" href="https://maps.apple/p/b2_-phdndH2Q8a"><span class="gym-name">Wimbledon</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">pool</span><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">heat</span><span class="material-symbols-outlined">bubble_chart</span></span></a>
+  <a class="gym-card" href="https://maps.apple/p/rmnreMiusjNj_c"><span class="gym-name">Wood Wharf</span><span class="gym-amenities" aria-hidden="true"><span class="material-symbols-outlined">pool</span><span class="material-symbols-outlined">sauna</span><span class="material-symbols-outlined">heat</span><span class="material-symbols-outlined">bubble_chart</span><span class="material-symbols-outlined">mode_cool</span></span></a>
 </div>
 
 </div>
